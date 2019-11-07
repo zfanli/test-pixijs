@@ -1,8 +1,8 @@
-import * as PIXI from 'pixi.js'
+import { Application, Sprite, Loader } from './aliases'
 import './css/index.css'
 
 //Create a Pixi Application
-let app = new PIXI.Application({
+let app = new Application({
   // `width`: The width of the renderers view.
   width: window.innerWidth, // default: 800
   // `height`: The height of the renderers view.
@@ -23,3 +23,25 @@ let app = new PIXI.Application({
 
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view)
+
+const loader = Loader.shared
+loader
+  .add('images/character.png')
+  .on('progress', handleProgress)
+  .load(setup)
+
+const sprites = {}
+
+function handleProgress(loader, resources) {
+  console.log('loading', resources.url)
+  console.log('' + loader.progress, '%')
+}
+
+function setup(_, resources) {
+  console.log('loaded')
+  let sprite = new Sprite(resources['images/character.png'].texture)
+  app.stage.addChild(sprite)
+  sprites['sprite'] = sprite
+}
+
+;(window as any)._sprites = sprites
