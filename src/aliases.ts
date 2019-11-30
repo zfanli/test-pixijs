@@ -5,3 +5,4 @@ import * as PIXI from 'pixi.js'
 export const Application = PIXI.Application
 export const Sprite = PIXI.Sprite
 export const Loader = PIXI.Loader
+export const TextureCache = PIXI.utils.TextureCache
