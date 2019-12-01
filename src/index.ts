@@ -1,5 +1,6 @@
 import { Application, Sprite, Loader, TextureCache } from './aliases'
 import './css/index.css'
+import { keyboard } from './bindKeyboard'
 
 //Create a Pixi Application
 let app = new Application({
@@ -104,6 +105,7 @@ function setup(_, _resources) {
 function mainLoop(delta: number) {
   movingBlobs(delta)
   movingExplorer(delta)
+  bindingKeyboard()
 }
 
 function movingBlobs(_delta: number) {
@@ -131,6 +133,39 @@ function animateBlobs() {
       300 * (i % 2) + 1
     )
   })
+}
+
+function bindingKeyboard() {
+  const left = keyboard('ArrowLeft')
+  const right = keyboard('ArrowRight')
+  const up = keyboard('ArrowUp')
+  const down = keyboard('ArrowDown')
+
+  left.press = () => {
+    controllers.explorer.vx = -5
+    controllers.explorer.vy = 0
+  }
+
+  left.release = () => {
+    if (!right.isDown && controllers.explorer.vy === 0) {
+      controllers.explorer.vx = 0
+    }
+  }
+
+  right.press = () => {
+    controllers.explorer.vx = 5
+    controllers.explorer.vy = 0
+  }
+
+  up.press = () => {
+    controllers.explorer.vx = 0
+    controllers.explorer.vy = -5
+  }
+
+  down.press = () => {
+    controllers.explorer.vx = 0
+    controllers.explorer.vy = 5
+  }
 }
 
 // For debug
